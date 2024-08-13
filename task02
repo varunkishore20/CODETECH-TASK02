@@ -1,0 +1,83 @@
+package varun;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+    
+public class sample2 {
+    private static final String[] LETTER_GRADES = {"A", "B", "C", "D", "F"};
+     private static final double[] GRADE_THRESHOLDS = {90, 80, 70, 60, 0};
+    
+     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Double> grades = new ArrayList<>();
+    
+            while (true) {
+                System.out.println("Grade Tracker");
+                System.out.println("1. Add grade");
+                System.out.println("2. Calculate average and display result");
+                System.out.println("3. Exit");
+                System.out.print("Choose an option: ");
+                int option = scanner.nextInt();
+                scanner.nextLine();  // Consume newline
+    
+                if (option == 1) {
+                    System.out.print("Enter grade (0-100): ");
+                    double grade = scanner.nextDouble();
+                    if (grade < 0 || grade > 100) {
+                        System.out.println("Invalid grade. Please enter a grade between 0 and 100.");
+                    } else {
+                        grades.add(grade);
+                        System.out.println("Grade added.");
+                    }
+                } else if (option == 2) {
+                    if (grades.isEmpty()) {
+                        System.out.println("No grades available to calculate.");
+                    } else {
+                        double average = calculateAverage(grades);
+                        String letterGrade = getLetterGrade(average);
+                        double gpa = calculateGPA(average);
+    
+                        System.out.println("Average Grade: " + average);
+                        System.out.println("Letter Grade: " + letterGrade);
+                        System.out.println("GPA: " + gpa);
+                    }
+                } else if (option == 3) {
+                    System.out.println("Exiting...");
+                    break;
+                } else {
+                    System.out.println("Invalid option. Please choose again.");
+                }
+            }
+    
+            scanner.close();
+        }
+    
+        private static double calculateAverage(ArrayList<Double> grades) {
+            double sum = 0;
+            for (double grade : grades) {
+                sum += grade;
+            }
+            return sum / grades.size();
+        }
+    
+        private static String getLetterGrade(double average) {
+            for (int i = 0; i < GRADE_THRESHOLDS.length; i++) {
+                if (average >= GRADE_THRESHOLDS[i]) {
+                    return LETTER_GRADES[i];
+                }
+            }
+            return "F";
+        }
+    
+        private static double calculateGPA(double average) {
+            // GPA scale: A=4.0, B=3.0, C=2.0, D=1.0, F=0.0
+            if (average >= 90) return 4.0;
+            if (average >= 80) return 3.0;
+            if (average >= 70) return 2.0;
+            if (average >= 60) return 1.0;
+            return 0.0;
+        }
+    }
+    
+
+
